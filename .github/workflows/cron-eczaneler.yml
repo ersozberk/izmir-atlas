@@ -2,10 +2,7 @@ name: İzmir Nöbetçi Eczane Senkronizasyonu
 
 on:
   schedule:
-    # Her gün sabah saat 08:15'te çalışır (Zaman dilimi UTC'dir, Türkiye UTC+3 olduğu için 05:15 yazıyoruz)
     - cron: '15 5 * * *'
-  
-  # Manuel olarak tetiklemek istersek (Test için harika)
   workflow_dispatch: 
 
 jobs:
@@ -16,13 +13,14 @@ jobs:
       - name: Kodu Klonla
         uses: actions/checkout@v4
 
-      - name: Node.js Kur
+      - name: Node.js Kur (2026 Standartları)
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24' # Node uyarılarını temizlemek için 24'e çektik
 
-      - name: Bağımlılıkları Yükle
-        working-directory: ./services/ingestion
+      - name: Monorepo Bağımlılıklarını Yükle
+        # Artık spesifik bir klasöre girmiyoruz. Kök dizinde çalıştırıp 
+        # npm'in tüm workspaces (apps, services vs.) paketlerini akıllıca yüklemesini sağlıyoruz.
         run: npm install
 
       - name: Senkronizasyon Scriptini Çalıştır
