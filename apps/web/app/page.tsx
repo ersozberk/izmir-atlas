@@ -270,14 +270,18 @@ function AbsoluteOffsetCarousel({ interval }: { interval: number }) {
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     setIsPlaying(false);
     if (e.targetTouches && e.targetTouches.length > 0) {
-      setTouchStartX(e.targetTouches[0].clientX);
+      const touch = e.targetTouches[0];
+      if (touch) {
+        setTouchStartX(touch.clientX);
+      }
     }
   };
 
   const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
     if (!touchStartX) return;
     if (e.changedTouches && e.changedTouches.length > 0) {
-      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndX = e.changedTouches[0]?.clientX;
+      if (touchEndX === undefined) return;
       const distance = touchStartX - touchEndX;
       
       if (distance > 40) triggerSlideChange('next');
