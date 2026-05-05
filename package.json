@@ -16,5 +16,8 @@
   "devDependencies": {
     "prettier": "^3.2.0",
     "turbo": "latest"
+  },
+  "dependencies": {
+    "lucide-react": "^1.14.0"
   }
 }
